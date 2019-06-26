@@ -1,0 +1,126 @@
+<!--
+  ## Introduction
+
+  The [amp-form]({{g.doc('/content/amp-dev/documentation/components/reference/amp-form.md', locale=doc.locale).url.path}}) extension allows
+  the usage of forms and input fields in an AMP document. `amp-form` allows HTTP and XHR (XMLHttpRequest) form submissions. An HTTP form submission loads a new page, while an XHR form submission doesn't require a page reload.
+
+  The `amp-form` extension also allows you to render success and error responses with the `submit-success` and `submit-error` special attributes. For details on usage, see the [amp-form documentation on Success/Error response rendering]({{g.doc('/content/amp-dev/documentation/components/reference/amp-form.md', locale=doc.locale).url.path}}#success/error-response-rendering).
+-->
+<!-- -->
+<!doctype html>
+<html ⚡>
+<head>
+  <meta charset="utf-8">
+  <title>amp-form</title>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <!-- ## Setup -->
+  <!--
+    Import the `amp-form` extension.
+  -->
+  <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+  <!--
+    `amp-mustache` is needed for client-side rendering of form responses.
+  -->
+  <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+  <link rel="canonical" href="https://amp.dev/documentation/examples/components/amp-form/index.html">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  <style amp-custom>
+  :root {
+    --space-1: .5rem;  /* 8px */
+    --space-2: 1rem;   /* 16px */
+    --space-3: 1.5rem; /* 24px */
+  }
+
+  /* Hides all inputs after successful form submission */
+  form.amp-form-submit-success.sample-form.hide-inputs > input {
+    display: none;
+  }
+
+  /* sample styles */
+  .sample-form {
+    padding: 0 var(--space-2);
+  }
+  .sample-form > * {
+    margin: var(--space-1);
+  }
+  .sample-heading {
+    margin: 0 var(--space-3);
+    margin-top: var(--space-3);
+    font-size: 18px;
+  }
+  </style>
+  
+  <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+  <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+</head>
+<body>
+
+  <amp-state id="myState">
+  <script type="application/json">
+    {
+      "foo": "bar"
+    }
+  </script>
+</amp-state>
+
+  <h2 class="sample-heading">Form Submission with Page Update</h2>
+  <!-- ## Form submission with client-side rendering -->
+  <!--
+    Use the `action-xhr` attribute to submit the form via XMLHttpRequest (XHR). You can use [amp-mustache]({{g.doc('/content/amp-dev/documentation/components/reference/amp-mustache.md', locale=doc.locale).url.path}}) templates to client side render the POST response. It's possible to show custom success or error messages, using data sent by the server endpoint as JSON. For example, if the server sends `{"foo": "bar"}`, you can use use `{{foo}}` in the template to render `bar`.
+
+    The `amp-form` component displays `submit-success` or `submit-error` elements based on the response and renders the template data inside these two elements. The `submit-success` and `submit-error` elements must be direct children of `form`.
+  -->
+  <form class="sample-form" method="post"
+        action-xhr="/documentation/examples/api/submit-form-input-text-xhr"
+        target="_top">
+    <input type="text"
+           name="name"
+           placeholder="search"
+           on="change:AMP.setState({q: event.value});"
+           required>
+    <input type="submit" value="Subscribe">
+    
+    <div submit-success>
+      <template type="amp-mustache">
+        <amp-img src="http://www.tiori.com.br/assets/img/{{name}}" alt="Welcome" height="317" width="350"></amp-img>
+      </template>
+    </div>
+    <div submit-error>
+      <template type="amp-mustache">
+        Error! Thanks {{name}}
+      </template>
+    </div>
+  </form>
+  
+
+  
+  <!-- <amp-list id="list"
+    width="396" height="80" layout="responsive"
+    items="items"
+    src="https://www.peixeurbano.com.br/v1/services/sao-paulo-so/suggest?q=p"
+    [src]="'https://www.peixeurbano.com.br/v1/services/sao-paulo-so/suggest?q=' + q"> -->
+  <amp-list id="list"
+    width="396" height="80" layout="responsive"
+    items="response.deals"
+    src="/sugest.php"
+    [src]="'/sugest.php?q=' + q">
+    <template type="amp-mustache">
+      <a href="https://www.peixeurbano.com.br/{{page_id}}/{{partner.formatted_url}}/{{formatted_url}}">
+        <amp-img 
+            src="{{images.0.image}}" 
+            alt="Welcome" height="41" width="64"></amp-img>
+
+        <h2 class="suggest-partner-name">{{partner.name}} </h2><br>
+        <p>{{short_title}} </p><br>
+      </a>
+    </template>
+  </amp-list>
+  
+        <amp-img 
+          src="http://www.tiori.com.br/assets/img/tiori-min-min.pn" 
+          [src]="'http://www.tiori.com.br/assets/img/' + q" 
+          alt="Welcome" height="317" width="350"></amp-img>
+  
+</body>
+</html>
