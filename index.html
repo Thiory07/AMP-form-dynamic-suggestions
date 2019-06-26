@@ -71,8 +71,9 @@
 
     The `amp-form` component displays `submit-success` or `submit-error` elements based on the response and renders the template data inside these two elements. The `submit-success` and `submit-error` elements must be direct children of `form`.
   -->
-  <form class="sample-form" method="post"
-        action-xhr="/documentation/examples/api/submit-form-input-text-xhr"
+  <form class="sample-form" 
+        method="get"
+        action="suggest.php"
         target="_top">
     <input type="text"
            name="name"
@@ -83,7 +84,7 @@
     
     <div submit-success>
       <template type="amp-mustache">
-        <amp-img src="http://www.tiori.com.br/assets/img/{{name}}" alt="Welcome" height="317" width="350"></amp-img>
+        <amp-img src="//www.tiori.com.br/assets/img/{{name}}" alt="Welcome" height="317" width="350"></amp-img>
       </template>
     </div>
     <div submit-error>
@@ -99,10 +100,10 @@
   <amp-list id="list"
     width="396" height="80" layout="responsive"
     items="response.deals"
-    src="/sugest.php"
-    [src]="'/sugest.php?q=' + q">
+    src="//www.tiori.com.br/projects/AMP-form-dynamic-suggestions/sugest.php"
+    [src]="'//www.tiori.com.br/projects/AMP-form-dynamic-suggestions/sugest.php?q=' + q">
     <template type="amp-mustache">
-      <a href="https://www.peixeurbano.com.br/{{page_id}}/{{partner.formatted_url}}/{{formatted_url}}">
+      <a href="//www.tiori.com.br/{{page_id}}/{{partner.formatted_url}}/{{formatted_url}}">
         <amp-img 
             src="{{images.0.image}}" 
             alt="Welcome" height="41" width="64"></amp-img>
@@ -112,11 +113,5 @@
       </a>
     </template>
   </amp-list>
-  
-        <amp-img 
-          src="http://www.tiori.com.br/assets/img/tiori-min-min.pn" 
-          [src]="'http://www.tiori.com.br/assets/img/' + q" 
-          alt="Welcome" height="317" width="350"></amp-img>
-  
 </body>
 </html>
