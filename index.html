@@ -78,7 +78,7 @@
     <input type="text"
            name="name"
            placeholder="search"
-           on="change:AMP.setState({q: event.value});"
+           on="input-debounced:AMP.setState({q: event.value});"
            required>
     <input type="submit" value="Subscribe">
     
