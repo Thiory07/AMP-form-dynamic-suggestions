@@ -64,7 +64,7 @@
   </script>
 </amp-state>
 
-  <h2 class="sample-heading">Form Submission with Page Update</h2>
+  <h2 class="sample-heading">Suggestion</h2>
   <!-- ## Form submission with client-side rendering -->
   <!--
     Use the `action-xhr` attribute to submit the form via XMLHttpRequest (XHR). You can use [amp-mustache]({{g.doc('/content/amp-dev/documentation/components/reference/amp-mustache.md', locale=doc.locale).url.path}}) templates to client side render the POST response. It's possible to show custom success or error messages, using data sent by the server endpoint as JSON. For example, if the server sends `{"foo": "bar"}`, you can use use `{{foo}}` in the template to render `bar`.
@@ -95,11 +95,7 @@
   
 
   
-  <!-- <amp-list id="list"
-    width="396" height="80" layout="responsive"
-    items="items"
-    src="https://www.peixeurbano.com.br/v1/services/sao-paulo-so/suggest?q=p"
-    [src]="'https://www.peixeurbano.com.br/v1/services/sao-paulo-so/suggest?q=' + q"> -->
+  
   <amp-list id="list"
     width="396" height="80" layout="responsive"
     items="response.deals"
