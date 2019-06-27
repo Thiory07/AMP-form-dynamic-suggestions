@@ -1,66 +1,37 @@
 <?php 
+
+// Read JSON file
+$json = file_get_contents('deals.json');
+
+//Decode JSON
+$json_data = json_decode($json,true);
+
 if (isset($_GET['q'])) {
-	if ($_GET['q'] !='') {
-	?>
-{
-  "code": 200,
-  "response": {
-    "deals": [
-      {
-        "page_id": "folder-id",
-        "short_title": "Title",
-        "formatted_url": "deal-url",
-        "partner": {
-          "name": "lorem ipsum",
-          "formatted_url": "partner-id"
-        },
-        "images": [
-          {
-            "image": "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f000010xIRvEAM/5c58283ce4b0f1fdfd052fcf.jpg&w=64&h=41"
-          }
-        ],
-        "dealImage": "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f000010xIRvEAM/5c58283ce4b0f1fdfd052fcf.jpg&w=64&h=41"
-      },{
-        "page_id": "folder-id",
-        "short_title": "Title",
-        "formatted_url": "deal-url",
-        "partner": {
-          "name": "lorem ipsum",
-          "formatted_url": "partner-id"
-        },
-        "images": [
-          {
-            "image": "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f000010xIRvEAM/5c58283ce4b0f1fdfd052fcf.jpg&w=64&h=41"
-          }
-        ],
-        "dealImage": "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f000010xIRvEAM/5c58283ce4b0f1fdfd052fcf.jpg&w=64&h=41"
-      }
-    ]
+  
+	if ($q !='') {
+
+
+	  $deals = array_filter($json_data['response']['deals'], function($deal) {
+      $q = $_GET['q'];
+      if( strpos( $deal['partner']['name'], $q) !== false  )
+
+        {return true; } 
+        else 
+        {return false; };
+    });
+    var_dump($deals);
+    $json = array(
+      'code' =>  200,
+      "response" =>  array(
+          'deals' => $deals
+        )
+      );
+    json_encode($json, JSON_PRETTY_PRINT);
+    //echo ($response);
+	}else{
+    echo json_encode($json_data);
   }
-}
-	<?
-	}
 } else{
-	?>{
-  "code": 200,
-  "response": {
-    "deals": [
-      {
-        "page_id": "folder-id",
-        "short_title": "Title",
-        "formatted_url": "deal-url",
-        "partner": {
-          "name": "lorem ipsum",
-          "formatted_url": "partner-id"
-        },
-        "images": [
-          {
-            "image": "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f000010xIRvEAM/5c58283ce4b0f1fdfd052fcf.jpg&w=64&h=41"
-          }
-        ],
-        "dealImage": "https://img.stpu.com.br/?img=https://s3.amazonaws.com/pu-mgr/default/a0R0f000010xIRvEAM/5c58283ce4b0f1fdfd052fcf.jpg&w=64&h=41"
-      }]
-    }
-  }<?
+  echo json_encode($json_data);
 }
 ?>
